@@ -1,6 +1,6 @@
 # DFYN Subgraph
 
-[dfyn](https://dfyn.org/) is a decentralized protocol for automated token exchange on Matic Network.
+[dfyn](https://www.dfyn.network/) is a decentralized protocol for automated token exchange on Matic Network.
 
 This subgraph dynamically tracks any pair created by the dfyn factory. It tracks of the current state of dfyn contracts, and contains derived stats for things like historical data and USD prices.
 
@@ -16,11 +16,11 @@ Make sure to update package.json settings to point to your own graph account.
 
 ## Queries
 
-Below are a few ways to show how to query the dfyn-subgraph for data. The queries show most of the information that is queryable, but there are many other filtering options that can be used, just check out the [querying api](https://thegraph.com/docs/graphql-api). These queries can be used locally or in The Graph Explorer playground.
+Below are a few ways to show how to query the dfyn subgraph for data. The queries show most of the information that is queryable, but there are many other filtering options that can be used, just check out the [querying api](https://thegraph.com/docs/graphql-api). These queries can be used locally or in The Graph Explorer playground.
 
 ## Key Entity Overviews
 
-#### dfynFactory
+#### DfynFactory
 
 Contains data across all of DFYN. This entity tracks important things like total liquidity (in ETH and USD, see below), all time volume, transaction count, number of pairs and more.
 

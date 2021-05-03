@@ -9,7 +9,7 @@
     "remove-local": "graph remove --node http://localhost:8020/ dfyn/analytics",
     "create-local": "graph create dfyn/analytics --node http://127.0.0.1:8020",
     "deploy-local": "graph deploy dfyn/analytics --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy": "graph deploy ianlapham/dfyn --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
+    "deploy": "graph deploy ss-sonic/dfyn --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
     "deploy-staging": "graph deploy $THE_GRAPH_GITHUB_USER/$THE_GRAPH_SUBGRAPH_NAME /dfyn --ipfs https://api.staging.thegraph.com/ipfs/ --node https://api.staging.thegraph.com/deploy/",
     "watch-local": "graph deploy graphprotocol/dfyn --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
   },
