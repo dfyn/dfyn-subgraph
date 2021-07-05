@@ -51,7 +51,11 @@ let WHITELIST: string[] = [
   Address.fromString('0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063').toHexString(), // DAI
   Address.fromString('0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174').toHexString(), // USDC
   Address.fromString('0xc2132D05D31c914a87C6611C10748AEb04B58e8F').toHexString(), // USDT
-  Address.fromString('0x16eccfdbb4ee1a85a33f3a9b21175cd7ae753db4').toHexString()  // ROUTE
+  Address.fromString('0x16eccfdbb4ee1a85a33f3a9b21175cd7ae753db4').toHexString(),  // ROUTE
+  Address.fromString('0xb33eaad8d922b1083446dc23f610c2567fb5180f').toHexString(),  // UNI
+  Address.fromString('0xC168E40227E4ebD8C1caE80F7a55a4F0e6D66C97').toHexString(),  // DFYN
+  Address.fromString('0xd6df932a45c0f255f85145f286ea0b292b21c90b').toHexString(),  // AAVE
+  Address.fromString('0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6').toHexString(),  // WBTC
 ]
 // minimum liquidity required to count towards tracked volume for pairs with small # of Lps
 let MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString('4')

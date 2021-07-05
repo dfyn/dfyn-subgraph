@@ -70,7 +70,7 @@ export function handleTransfer(event: Transfer): void {
     pair.save()
 
     // create new mint if no mints so far or if last one is done already
-    if (mints.length === 0 || isCompleteMint(mints[mints.length - 1])) {
+    // if (mints.length === 0 || isCompleteMint(mints[mints.length - 1])) {
       let mint = new MintEvent(
         event.transaction.hash
           .toHexString()
@@ -91,7 +91,7 @@ export function handleTransfer(event: Transfer): void {
       // save entities
       transaction.save()
       factory.save()
-    }
+    // }
   }
 
   // case where direct send first on ETH withdrawls
@@ -278,56 +278,59 @@ export function handleSync(event: Sync): void {
 export function handleMint(event: Mint): void {
   let transaction = Transaction.load(event.transaction.hash.toHexString())
   let mints = transaction.mints
-  let mint = MintEvent.load(mints[mints.length - 1])
 
-  let pair = Pair.load(event.address.toHex())
-  let uniswap = UniswapFactory.load(FACTORY_ADDRESS)
-
-  let token0 = Token.load(pair.token0)
-  let token1 = Token.load(pair.token1)
-
-  // update exchange info (except balances, sync will cover that)
-  let token0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
-  let token1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
-
-  // update txn counts
-  token0.txCount = token0.txCount.plus(ONE_BI)
-  token1.txCount = token1.txCount.plus(ONE_BI)
-
-  // get new amounts of USD and ETH for tracking
-  let bundle = Bundle.load('1')
-  let amountTotalUSD = token1.derivedETH
-    .times(token1Amount)
-    .plus(token0.derivedETH.times(token0Amount))
-    .times(bundle.ethPrice)
-
-  // update txn counts
-  pair.txCount = pair.txCount.plus(ONE_BI)
-  uniswap.txCount = uniswap.txCount.plus(ONE_BI)
-
-  // save entities
-  token0.save()
-  token1.save()
-  pair.save()
-  uniswap.save()
-
-  mint.sender = event.params.sender
-  mint.amount0 = token0Amount as BigDecimal
-  mint.amount1 = token1Amount as BigDecimal
-  mint.logIndex = event.logIndex
-  mint.amountUSD = amountTotalUSD as BigDecimal
-  mint.save()
-
-  // update the LP position
-  let liquidityPosition = createLiquidityPosition(event.address, mint.to as Address)
-  createLiquiditySnapshot(liquidityPosition, event)
-
-  // update day entities
-  updatePairDayData(event)
-  updatePairHourData(event)
-  updateUniswapDayData(event)
-  updateTokenDayData(token0 as Token, event)
-  updateTokenDayData(token1 as Token, event)
+  for(let m = 0; m<mints.length; m++){
+    let mint = MintEvent.load(mints[m])
+  
+    let pair = Pair.load(event.address.toHex())
+    let uniswap = UniswapFactory.load(FACTORY_ADDRESS)
+  
+    let token0 = Token.load(pair.token0)
+    let token1 = Token.load(pair.token1)
+  
+    // update exchange info (except balances, sync will cover that)
+    let token0Amount = convertTokenToDecimal(event.params.amount0, token0.decimals)
+    let token1Amount = convertTokenToDecimal(event.params.amount1, token1.decimals)
+  
+    // update txn counts
+    token0.txCount = token0.txCount.plus(ONE_BI)
+    token1.txCount = token1.txCount.plus(ONE_BI)
+  
+    // get new amounts of USD and ETH for tracking
+    let bundle = Bundle.load('1')
+    let amountTotalUSD = token1.derivedETH
+      .times(token1Amount)
+      .plus(token0.derivedETH.times(token0Amount))
+      .times(bundle.ethPrice)
+  
+    // update txn counts
+    pair.txCount = pair.txCount.plus(ONE_BI)
+    uniswap.txCount = uniswap.txCount.plus(ONE_BI)
+  
+    // save entities
+    token0.save()
+    token1.save()
+    pair.save()
+    uniswap.save()
+  
+    mint.sender = event.params.sender
+    mint.amount0 = token0Amount as BigDecimal
+    mint.amount1 = token1Amount as BigDecimal
+    mint.logIndex = event.logIndex
+    mint.amountUSD = amountTotalUSD as BigDecimal
+    mint.save()
+  
+    // update the LP position
+    let liquidityPosition = createLiquidityPosition(event.address, mint.to as Address)
+    createLiquiditySnapshot(liquidityPosition, event)
+  
+    // update day entities
+    updatePairDayData(event)
+    updatePairHourData(event)
+    updateUniswapDayData(event)
+    updateTokenDayData(token0 as Token, event)
+    updateTokenDayData(token1 as Token, event)
+  }
 }
 
 export function handleBurn(event: Burn): void {
